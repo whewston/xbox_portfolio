@@ -13,7 +13,10 @@ export default function Tile({
                              }) {
     const tileStyle = {
         backgroundColor: bgColor || '#333',
-        backgroundImage: bgImage ? `url(${bgImage})` : 'none',
+        // This adds a soft dark tint over the image so it doesn't clash with your text
+        backgroundImage: bgImage
+            ? `linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.6)), url(${bgImage})`
+            : 'none',
         color: textColor,
     };
 
