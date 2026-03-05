@@ -1,8 +1,12 @@
 :root {
-  /* Segoe UI is the authentic Microsoft font */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /* Segoe UI first, with Segoe WP (Windows Phone) as backup */
+  font-family: 'Segoe UI', 'Segoe WP', Tahoma, Geneva, Verdana, sans-serif;
   background: radial-gradient(circle at 50% 30%, #4a4a4a 0%, #1a1a1a 80%);
   color: white;
+
+  /* This makes the thin fonts look much sharper in the browser */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {

@@ -1,0 +1,45 @@
+﻿.tile {
+    position: relative;
+    box-sizing: border-box;
+    cursor: pointer;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.15s ease-out, box-shadow 0.15s ease-out, border 0.15s ease-out;
+    border: 3px solid transparent;
+    display: flex;
+    align-items: flex-end;
+    /* Let the CSS Grid control the actual width and height */
+    width: 100%;
+    height: 100%;
+}
+
+.tile:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+    border: 3px solid white;
+    z-index: 10;
+}
+
+.tile-icon-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+}
+
+.tile-label-container {
+    background: rgba(0, 0, 0, 0.75);
+    width: 100%;
+    padding: 4px 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.tile-label-container.transparent-bg {
+    background: transparent;
+}
+
+.tile-label { font-size: 0.95rem; font-weight: 400; }
+.tile-subtext { font-size: 0.75rem; color: #ccc; }
