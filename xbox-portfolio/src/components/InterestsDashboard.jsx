@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 import Tile from './Tile';
-import './GamesDashboard.css';
+import './InterestsDashboard.css';
 
 export default function GamesDashboard() {
     return (

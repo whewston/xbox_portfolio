@@ -1,17 +1,14 @@
 import { useState } from 'react';
 import HomeDashboard from './components/HomeDashboard';
 import SocialDashboard from './components/SocialDashboard';
+import InterestsDashboard from './components/InterestsDashboard';
 import './App.css';
-import TvMoviesDashboard from "./components/TvMoviesDashboard.jsx";
-import GamesDashboard from "./components/GamesDashboard.jsx";
-import AppsDashboard from "./components/AppsDashboard.jsx";
-import MusicDashboard from "./components/MusicDashboard.jsx";
-import SettingsDashboard from "./components/SettingsDashboard.jsx";
+import SettingsDashboard from "./components/SettingsDashboard";
 
 export default function App() {
     const [activeTab, setActiveTab] = useState('home');
 
-    const tabs = ['bing', 'home', 'social', 'games', 'tv & movies', 'music', 'apps', 'settings'];
+    const tabs = ['home', 'social', 'interests', 'settings'];
 
     const activeIndex = tabs.indexOf(activeTab);
 
@@ -22,14 +19,8 @@ export default function App() {
                 return <HomeDashboard />;
             case 'social':
                 return <SocialDashboard />;
-            case 'games':
-                return <GamesDashboard />;
-            case 'tv & movies':
-                return <TvMoviesDashboard />;
-            case 'music':
-                return <MusicDashboard />;
-            case 'apps':
-                return <AppsDashboard />;
+            case 'interests':
+                return <InterestsDashboard />;
             case 'settings':
                 return <SettingsDashboard />;
             default:
