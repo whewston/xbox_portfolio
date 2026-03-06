@@ -18,11 +18,11 @@
     padding: 0;
 }
 
-.tile:hover {
+.tile:hover,
+.tile:focus {
     transform: scale(1.05);
     box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
     outline: 3px solid white;
-
     z-index: 10;
 }
 
@@ -59,4 +59,8 @@
     color: #ccc;
     font-weight: 400;
     margin-top: 2px;
+}
+
+.tile:focus-visible {
+    outline-offset: 0;
 }

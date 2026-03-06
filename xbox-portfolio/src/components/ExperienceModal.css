@@ -1,0 +1,140 @@
+﻿/* The dark background overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.75); /* Darkens the dashboard behind it */
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: quickFade 0.2s ease-out;
+}
+
+.modal-wrapper {
+    width: 900px;
+    height: 550px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header Text (Outside the box) */
+.modal-header-text {
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: white;
+    margin: 0 0 15px 0;
+    letter-spacing: 1px;
+}
+
+/* The White Split-Pane Box */
+.modal-content-box {
+    display: flex;
+    flex-grow: 1;
+    background-color: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    overflow: hidden;
+}
+
+/* Left side: The List */
+.modal-left-pane {
+    width: 40%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.list-item {
+    padding: 15px 20px;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    transition: background 0.1s;
+}
+
+.list-title {
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #333;
+}
+
+.list-subtitle {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 4px;
+}
+
+/* THE XBOX GREEN ACTIVE STATE */
+.list-item.active {
+    background-color: #107C10;
+}
+
+.list-item.active .list-title,
+.list-item.active .list-subtitle {
+    color: white; /* Text turns white when highlighted */
+}
+
+/* Right side: The Details */
+.modal-right-pane {
+    width: 60%;
+    background-color: #e6eaea; /* That classic light grey */
+    padding: 40px;
+    color: #333;
+}
+
+.detail-header {
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.detail-header h2 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 300;
+    color: #333;
+}
+
+.detail-date {
+    margin: 5px 0 0 0;
+    font-size: 1rem;
+    color: #666;
+}
+
+.detail-body {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    color: #444;
+}
+
+/* Bottom Left Controls */
+.modal-footer-controls {
+    position: absolute;
+    bottom: 40px;
+    left: 50px;
+    display: flex;
+    gap: 20px;
+    font-size: 1.2rem;
+    color: white;
+}
+
+.btn-b {
+    background-color: #ff0000; /* Xbox Red */
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+
+@keyframes quickFade {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+}
