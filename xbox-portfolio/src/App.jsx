@@ -8,13 +8,16 @@ import './App.css';
 export default function App() {
     const [activeTab, setActiveTab] = useState('home');
 
-    // Your simplified tabs!
     const tabs = ['home', 'social', 'interests', 'settings'];
     const activeIndex = tabs.indexOf(activeTab);
 
     // --- THE KEYBOARD CONTROLLER LOGIC ---
     useEffect(() => {
         const handleKeyDown = (e) => {
+            if (document.querySelector('.modal-overlay')) {
+                return;
+            }
+            
             // 1. LB / RB NAVIGATION (Q and E keys)
             if (e.key === 'q' || e.key === 'Q') {
                 if (activeIndex > 0) setActiveTab(tabs[activeIndex - 1]);
@@ -69,7 +72,6 @@ export default function App() {
                 if (closestTile) {
                     closestTile.focus();
 
-                    // --- NEW LOGIC: DETECT PAGE TURNS ---
                     // Traverse up from the focused tile to find its parent slide
                     const parentSlide = closestTile.closest('.dashboard-slide');
                     if (parentSlide) {
@@ -88,7 +90,6 @@ export default function App() {
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [activeIndex, tabs]); // Re-run if tabs change
 
-    // ... rest of your App.jsx code (renderSlideContent, etc.) ...
     const renderSlideContent = (tab) => {
         switch (tab) {
             case 'home':

@@ -14,11 +14,22 @@ export default function ExperienceModal({ onClose }) {
     // Listen for the Escape key to close the modal
     useEffect(() => {
         const handleKeyDown = (e) => {
-            if (e.key === 'Escape') onClose();
+            if (e.key === 'Escape') {
+                onClose();
+            } else if (e.key === 'ArrowDown') {
+                e.preventDefault(); // Stop the page from scrolling
+                // Move down the list, but stop at the bottom
+                setActiveIndex((prev) => (prev < experiences.length - 1 ? prev + 1 : prev));
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                // Move up the list, but stop at the top
+                setActiveIndex((prev) => (prev > 0 ? prev - 1 : prev));
+            }
         };
+
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [onClose]);
+    }, [onClose, experiences.length]); // Add experiences.length to the dependency array
 
     // 2. WRAP THE RETURN STATEMENT IN createPortal
     return createPortal(

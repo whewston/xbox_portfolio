@@ -9,6 +9,7 @@ export default function Tile({
                                  bgImage,
                                  textColor = 'white',
                                  icon,
+                                 badge,
                                  transparentLabel = false,
                                  onClick
                              }) {
@@ -32,9 +33,12 @@ export default function Tile({
             className={`tile ${className}`}
             style={tileStyle}
             onClick={onClick}
-            tabIndex={0} /* 1. MAKES THE TILE FOCUSABLE */
-            onKeyDown={handleKeyDown} /* 2. LISTENS FOR ENTER KEY */
+            tabIndex={0}
+            onKeyDown={handleKeyDown}
         >
+            {/* 2. ADD THE BADGE CONTAINER HERE */}
+            {badge && <div className="tile-badge-top-right">{badge}</div>}
+
             {icon && <div className="tile-icon-center">{icon}</div>}
 
             <div className={`tile-label-container ${transparentLabel ? 'transparent-bg' : ''}`}>
