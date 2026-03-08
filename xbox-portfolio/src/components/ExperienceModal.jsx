@@ -4,9 +4,34 @@ import './ExperienceModal.css';
 
 export default function ExperienceModal({ onClose }) {
     const experiences = [
-        { id: 1, title: "Software Engineer", company: "Tech Solutions", date: "2022 - Present", details: "Led the development of a scalable React web application. Integrated RESTful APIs, improved load times by 40%, and managed a team of 3 junior developers." },
-        { id: 2, title: "Frontend Developer", company: "Creative Agency", date: "2020 - 2022", details: "Built responsive, pixel-perfect UI components for high-profile clients using React and plain CSS. Collaborated closely with UI/UX designers." },
-        { id: 3, title: "Web Intern", company: "Startup Co", date: "Summer 2019", details: "Assisted in migrating legacy codebase to modern JavaScript. Wrote unit tests and squashed front-end bugs." }
+        {
+            id: 1,
+            title: "Client Projects & BSc Software Engineering",
+            company: "Cardiff University",
+            date: "2023 - 2026",
+            details: "Studying Applied Software Engineering. Built an AI triage system for Signum Health (.NET, React, Python), a patient tracking system for the Welsh Blood Service (SpringBoot, Thymeleaf), and an accessible game discovery platform."
+        },
+        {
+            id: 2,
+            title: "Freelance Web Developer",
+            company: "Self-Employed",
+            date: "Ongoing",
+            details: "Designed and deployed a personal portfolio using Spring Boot, CI/CD, and Docker. Created a house renting site handling 100+ monthly visitors, and developed a custom WordPress site for a local business."
+        },
+        {
+            id: 3,
+            title: "CyberFirst Attendee",
+            company: "CyberFirst",
+            date: "August 2022",
+            details: "Attended the CyberFirst program in Belfast, gaining valuable insights into the cybersecurity industry, threat landscapes, and defensive strategies."
+        },
+        {
+            id: 4,
+            title: "Warehouse Assistant",
+            company: "Bumble Hole Foods",
+            date: "Summer 2025",
+            details: "Managed booking and dispatch for 100+ weekly deliveries. Optimised warehouse layout to reduce picking time by 15% and maintained inventory organisation across 300+ SKUs."
+        }
     ];
 
     const [activeIndex, setActiveIndex] = useState(0);

@@ -4,25 +4,24 @@ import { createPortal } from 'react-dom';
 import './ExperienceModal.css';
 
 export default function SkillsModal({ onClose }) {
-    // Dummy data for your skills categories
     const skillsData = [
         {
             id: 1,
             title: "Frontend Development",
-            subtitle: "React, JavaScript, CSS",
-            details: "Proficient in building highly responsive, accessible, and performant user interfaces. Extensive experience with React, Next.js, modern CSS (Flexbox/Grid), and animation libraries."
+            subtitle: "React, JavaScript, HTML/CSS",
+            details: "Experienced in building responsive and accessible user interfaces. Skilled in React, TailwindCSS, Bootstrap, and WordPress, with a focus on delivering high accessibility scores."
         },
         {
             id: 2,
-            title: "Backend & APIs",
-            subtitle: "Node.js, Python, SQL",
-            details: "Strong understanding of server-side logic and RESTful API design. Experienced in setting up Express servers, authenticating users, and managing relational databases like PostgreSQL."
+            title: "Backend & Databases",
+            subtitle: "Java, Python, C#, SQL",
+            details: "Proficient in server-side development using Java (Spring Boot), Python (Flask), and C# (.NET). Experienced in relational database management with PostgreSQL, MySQL, and MariaDB."
         },
         {
             id: 3,
             title: "Tools & DevOps",
-            subtitle: "Git, Docker, AWS",
-            details: "Comfortable managing version control with Git and GitHub. Familiar with containerizing applications using Docker and deploying to cloud platforms like AWS and Vercel."
+            subtitle: "Git, Docker, CI/CD",
+            details: "Strong understanding of DevOps practices including continuous integration and deployment using Jenkins. Familiar with containerisation (Docker), infrastructure as code (Terraform), Git source control, and Agile methodologies."
         }
     ];
 

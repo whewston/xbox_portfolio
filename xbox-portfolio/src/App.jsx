@@ -8,7 +8,7 @@ import './App.css';
 export default function App() {
     const [activeTab, setActiveTab] = useState('home');
 
-    const tabs = ['home', 'social', 'interests', 'settings'];
+    const tabs = ['home', 'interests', 'social', 'settings'];
     const activeIndex = tabs.indexOf(activeTab);
 
     // --- THE KEYBOARD CONTROLLER LOGIC ---

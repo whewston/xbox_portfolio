@@ -24,7 +24,7 @@
 /* CV spans 2 columns wide */
 .area-cv    { grid-column: 2 / 4; grid-row: 3 / 4; }
 /* Proj3 takes the final corner slot */
-.area-proj3 { grid-column: 4 / 5; grid-row: 3 / 4; }
+.area-learnmore { grid-column: 4 / 5; grid-row: 3 / 4; }
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(15px); }

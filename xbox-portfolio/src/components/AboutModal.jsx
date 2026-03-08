@@ -41,8 +41,8 @@ export default function AboutModal({ onClose }) {
 
                         <div style={{ width: '100%', textAlign: 'left', marginTop: '20px', padding: '0 20px' }}>
                             <p style={{ margin: '5px 0', color: '#666' }}><strong>Rep:</strong> ★★★★★</p>
-                            <p style={{ margin: '5px 0', color: '#666' }}><strong>Zone:</strong> Pro Developer</p>
-                            <p style={{ margin: '5px 0', color: '#666' }}><strong>Location:</strong> Earth</p>
+                            <p style={{ margin: '5px 0', color: '#666' }}><strong>Zone:</strong> Software Development</p>
+                            <p style={{ margin: '5px 0', color: '#666' }}><strong>Location:</strong> UK</p>
                         </div>
                     </div>
 
