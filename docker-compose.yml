@@ -5,7 +5,7 @@
     restart: always
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: MySuperSecretPassword123
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: PortfolioDb
     volumes:
       - pgdata:/var/lib/postgresql/data
@@ -18,8 +18,8 @@
       context: ./PortfolioApi
     restart: always
     environment:
-      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=PortfolioDb;Username=postgres;Password=MySuperSecretPassword123
-      - AdminSecretKey=MySuperSecretAdminPassword123!
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=PortfolioDb;Username=postgres;Password=${DB_PASSWORD}
+      - AdminSecretKey=${ADMIN_KEY}
     ports:
       - "5000:8080"
     depends_on:

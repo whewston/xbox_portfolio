@@ -1,3 +1,7 @@
+body, html {
+  overflow-x: hidden; /* Absolutely prevents the browser from scrolling left/right */
+}
+
 /* =========================================
    GLOBAL WRAPPER & NAV
    ========================================= */
@@ -137,3 +141,13 @@
 
 .btn-a { background-color: #39FF14; }
 .btn-y { background-color: #FFD700; }
+
+@media (max-height: 815px) {
+  .user-profile {
+    display: none;
+  }
+  
+  .app-container {
+    padding-top: 0px;
+  }
+}

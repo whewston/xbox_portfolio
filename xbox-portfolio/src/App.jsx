@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react'; // <-- ADD useEffect HERE
+import { useState, useEffect } from 'react';
 import HomeDashboard from './components/HomeDashboard';
 import SocialDashboard from './components/SocialDashboard';
 import InterestsDashboard from './components/InterestsDashboard';
 import SettingsDashboard from './components/SettingsDashboard';
+import ScreenSizeWarning from './components/ScreenSizeWarning';
 import './App.css';
 
 export default function App() {
@@ -17,7 +18,7 @@ export default function App() {
             if (document.querySelector('.modal-overlay')) {
                 return;
             }
-            
+
             // 1. LB / RB NAVIGATION (Q and E keys)
             if (e.key === 'q' || e.key === 'Q') {
                 if (activeIndex > 0) setActiveTab(tabs[activeIndex - 1]);
@@ -28,19 +29,16 @@ export default function App() {
 
             // 2. D-PAD NAVIGATION (Arrow Keys)
             if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
-                e.preventDefault(); // Stops the browser from scrolling the page
+                e.preventDefault();
 
-                // Find all focusable tiles currently rendered
                 const tiles = Array.from(document.querySelectorAll('.tile'));
                 const currentFocus = document.activeElement;
 
-                // If nothing is focused yet, focus the first tile on the screen
                 if (!tiles.includes(currentFocus)) {
-                    if (tiles.length > 0) tiles[0].focus();
+                    if (tiles.length > 0) tiles[0].focus({ preventScroll: true });
                     return;
                 }
 
-                // Get physical position of the currently focused tile
                 const currentRect = currentFocus.getBoundingClientRect();
                 let closestTile = null;
                 let minDistance = Infinity;
@@ -49,7 +47,6 @@ export default function App() {
                     if (tile === currentFocus) return;
                     const rect = tile.getBoundingClientRect();
 
-                    // Basic Spatial Math to find the nearest tile in the direction pressed
                     let isCandidate = false;
                     let distance = 0;
 
@@ -70,14 +67,10 @@ export default function App() {
                 });
 
                 if (closestTile) {
-                    closestTile.focus();
-
-                    // Traverse up from the focused tile to find its parent slide
+                    closestTile.focus({ preventScroll: true });                    
                     const parentSlide = closestTile.closest('.dashboard-slide');
                     if (parentSlide) {
                         const targetTab = parentSlide.getAttribute('data-tab');
-
-                        // If the tile we just focused is on a new page, slide the camera!
                         if (targetTab && targetTab !== tabs[activeIndex]) {
                             setActiveTab(targetTab);
                         }
@@ -88,25 +81,21 @@ export default function App() {
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [activeIndex, tabs]); // Re-run if tabs change
+    }, [activeIndex, tabs]);
 
     const renderSlideContent = (tab) => {
         switch (tab) {
-            case 'home':
-                return <HomeDashboard />;
-            case 'social':
-                return <SocialDashboard />;
-            case 'interests':
-                return <InterestsDashboard />;
-            case 'settings':
-                return <SettingsDashboard />;
-            default:
-                return <div className="placeholder-dash">{tab} Dashboard (Coming Soon...)</div>;
+            case 'home': return <HomeDashboard />;
+            case 'social': return <SocialDashboard />;
+            case 'interests': return <InterestsDashboard />;
+            case 'settings': return <SettingsDashboard />;
+            default: return <div className="placeholder-dash">{tab} Dashboard (Coming Soon...)</div>;
         }
     };
 
     return (
-        <>
+        // 2. WRAP EVERYTHING IN THE WARNING COMPONENT
+        <ScreenSizeWarning>
             <div className="user-profile">
                 <svg viewBox="0 0 24 24" width="28" height="28" fill="white">
                     <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" />
@@ -114,7 +103,6 @@ export default function App() {
             </div>
 
             <div className="app-container">
-
                 <header className="top-nav">
                     {tabs.map((tab) => (
                         <button
@@ -128,32 +116,23 @@ export default function App() {
                 </header>
 
                 <main className="dashboard-container">
-
-                    {/* The slider track with our 250px gap math */}
                     <div
                         className="slider-track"
                         style={{ transform: `translateX(calc(-${activeIndex} * (1328px + 250px)))` }}
                     >
-                        {/* 1. ADD data-tab={tab} TO THIS DIV */}
                         {tabs.map((tab) => (
                             <div key={tab} className="dashboard-slide" data-tab={tab}>
                                 {renderSlideContent(tab)}
                             </div>
                         ))}
                     </div>
-
                 </main>
 
                 <footer className="footer-controls">
-                    <div className="control">
-                        <span className="btn-a">A</span> Select
-                    </div>
-                    <div className="control">
-                        <span className="btn-y">Y</span> Eject
-                    </div>
+                    <div className="control"><span className="btn-a">A</span> Select</div>
+                    <div className="control"><span className="btn-y">Y</span> Eject</div>
                 </footer>
-
             </div>
-        </>
+        </ScreenSizeWarning>
     );
 }
