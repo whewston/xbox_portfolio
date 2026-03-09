@@ -33,10 +33,10 @@ export default function SettingsDashboard() {
                         bgImage={minecraftAd}
                     />
 
-                    {/* Fake Utility: Storage (1x1) */}
+                    {/* Changelog (1x1) */}
                     <Tile
-                        className="set-storage"
-                        label="Storage"
+                        className="set-changelog"
+                        label="Changelog"
                         bgColor="#8e44ad"
                         icon={StorageIcon}
                         transparentLabel

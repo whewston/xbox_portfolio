@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import Tile from './Tile';
 import StandardModal from './StandardModal';
 import CvModal from './CvModal';
@@ -20,45 +20,48 @@ const DiskBadge = (
     </svg>
 );
 
-// --- DATA BLOCKS ---
-const profileData = {
-    name: "William Hewston",
-    gamerscore: "15,420",
-    zone: "Software Development",
-    location: "UK",
-    joinDate: "2010",
-    bio: "Hey, I'm a passionate Software Engineer who loves building clean, interactive user interfaces.<br/><br/>When I'm not writing React code or hunting down CSS bugs, you can usually find me exploring new tech stacks, designing game UI clones, or trying to beat my high scores.<br/><br/>My primary weapon of choice is JavaScript, but I'm always leveling up my skills in the backend and cloud infrastructure."
-};
-
-const experienceData = [
-    { id: 1, title: "Client Projects & BSc Software Engineering", company: "Cardiff University", date: "2023 - 2026", details: "Studying Applied Software Engineering. Built an AI triage system for Signum Health (.NET, React, Python), a patient tracking system for the Welsh Blood Service (SpringBoot, Thymeleaf), and an accessible game discovery platform." },
-    { id: 2, title: "Freelance Web Developer", company: "Self-Employed", date: "Ongoing", details: "Designed and deployed a personal portfolio using Spring Boot, CI/CD, and Docker. Created a house renting site handling 100+ monthly visitors, and developed a custom WordPress site for a local business." },
-    { id: 3, title: "CyberFirst Attendee", company: "CyberFirst", date: "August 2022", details: "Attended the CyberFirst program in Belfast, gaining valuable insights into the cybersecurity industry, threat landscapes, and defensive strategies." },
-    { id: 4, title: "Warehouse Assistant", company: "Bumble Hole Foods", date: "Summer 2025", details: "Managed booking and dispatch for 100+ weekly deliveries. Optimised warehouse layout to reduce picking time by 15% and maintained inventory organisation across 300+ SKUs." }
-];
-
-const skillsData = [
-    { id: 1, title: "Frontend Development", subtitle: "React, JavaScript, HTML/CSS", details: "Experienced in building responsive and accessible user interfaces. Skilled in React, TailwindCSS, Bootstrap, and WordPress, with a focus on delivering high accessibility scores." },
-    { id: 2, title: "Backend & Databases", subtitle: "Java, Python, C#, SQL", details: "Proficient in server-side development using Java (Spring Boot), Python (Flask), and C# (.NET). Experienced in relational database management with PostgreSQL, MySQL, and MariaDB." },
-    { id: 3, title: "Tools & DevOps", subtitle: "Git, Docker, CI/CD", details: "Strong understanding of DevOps practices including continuous integration and deployment using Jenkins. Familiar with containerisation (Docker), infrastructure as code (Terraform), Git source control, and Agile methodologies." }
-];
-
-// NEW DATA BLOCK: Learn More
-const learnMoreData = [
-    { id: 1, title: "Project Desire", subtitle: "The Inspiration", details: "I grew up playing the Xbox 360, and its 'Metro' UI remains one of the most iconic, snappy, and satisfying digital interfaces ever designed. I built this portfolio as a tribute to that era, proving that highly interactive, controller-style navigation can still feel incredible on the modern web." },
-    { id: 2, title: "Frontend Architecture", subtitle: "React & CSS Grid", details: "This entire dashboard is built in React. The layout relies heavily on CSS Grid for the authentic, tightly-packed Metro tile system. I utilized React Portals to ensure the pop-up modals break out of their containment blocks and render perfectly centered over the sliding canvas." },
-    { id: 3, title: "Backend Infrastructure", subtitle: "Coming Soon...", details: "While the current version is primarily static, the architecture is designed to support a robust backend. The 'StandardModal' component is specifically structured to easily accept JSON payloads from a REST API or database, making future dynamic updates seamless." },
-    { id: 4, title: "Keyboard Controls", subtitle: "Spatial Navigation", details: "To make it feel like a real console, I implemented a custom spatial navigation system. The app calculates physical distances between DOM elements so you can use your D-Pad (Arrow Keys) to naturally glide between tiles, Q/E to change tabs, and Enter to select—just like having a controller in your hands." },
-    { id: 5, title: "Settings Page", subtitle: "Future Features", details: "The Settings tab is currently a fun visual easter egg, but future updates will wire these tiles to global React Contexts. This will allow users to toggle dark modes, change accent colors, and manage the website's background audio just like a real Xbox system menu." }
-];
-
 export default function HomeDashboard() {
     const [activeModal, setActiveModal] = useState(null);
     const closeModal = () => setActiveModal(null);
 
+    // State variables for database content ---
+    const [profileData, setProfileData] = useState({});
+    const [experienceData, setExperienceData] = useState([]);
+    const [skillsData, setSkillsData] = useState([]);
+    const [learnMoreData, setLearnMoreData] = useState([]);
+
+    // Fetch data from the .NET API when the dashboard loads ---
+    useEffect(() => {
+        const fetchAllData = async () => {
+            // NOTE: Make sure this port matches what your .NET terminal says! 
+            // It might be 5000, 5001, or something like 5228.
+            const API_BASE_URL = 'http://localhost:5075/api';
+
+            try {
+                // We use Promise.all to fetch everything at the exact same time for speed
+                const [profileRes, expRes, skillsRes, learnRes] = await Promise.all([
+                    fetch(`${API_BASE_URL}/profile`),
+                    fetch(`${API_BASE_URL}/experiences`),
+                    fetch(`${API_BASE_URL}/skills`),
+                    fetch(`${API_BASE_URL}/learnmore`)
+                ]);
+
+                // Convert responses to JSON and update React State
+                if (profileRes.ok) setProfileData(await profileRes.json());
+                if (expRes.ok) setExperienceData(await expRes.json());
+                if (skillsRes.ok) setSkillsData(await skillsRes.json());
+                if (learnRes.ok) setLearnMoreData(await learnRes.json());
+
+            } catch (error) {
+                console.error("Failed to fetch data from API:", error);
+            }
+        };
+
+        fetchAllData();
+    }, []); // Empty dependency array means this only runs once when the component mounts
+
     return (
         <>
-            {/* 1. Add 'learn' to our StandardModal checks */}
             {activeModal === 'about' && <StandardModal onClose={closeModal} title="Player Profile" variant="profile" data={profileData} />}
             {activeModal === 'exp' && <StandardModal onClose={closeModal} title="Experience" data={experienceData} />}
             {activeModal === 'skills' && <StandardModal onClose={closeModal} title="My Skills" data={skillsData} />}
@@ -112,7 +115,6 @@ export default function HomeDashboard() {
                     onClick={() => setActiveModal('cv')}
                 />
 
-                {/* 2. Add the onClick handler to the Learn More tile! */}
                 <Tile
                     className="area-learnmore"
                     label="Learn More..."

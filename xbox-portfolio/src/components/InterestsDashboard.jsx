@@ -1,6 +1,6 @@
-﻿import React, { useState } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import Tile from './Tile';
-import StandardModal from './StandardModal'; // <-- 1. IMPORT THE NEW MASTER MODAL
+import StandardModal from './StandardModal';
 import './InterestsDashboard.css';
 
 import halo3 from '../assets/halo3_a.jpeg';
@@ -11,37 +11,31 @@ const PlaneIcon = <svg fill="white" viewBox="0 0 24 24" width="60" height="60"><
 const MentorIcon = <svg fill="white" viewBox="0 0 24 24" width="60" height="60"><path d="M16,13C15.71,13 15.38,13 15.03,13.05C16.19,13.89 17,15 17,16.5V19H23V16.5C23,14.17 18.33,13 16,13M8,13C5.67,13 1,14.17 1,16.5V19H15V16.5C15,14.17 10.33,13 8,13M8,11A3,3 0 0,0 11,8A3,3 0 0,0 8,5A3,3 0 0,0 5,8A3,3 0 0,0 8,11M16,11A3,3 0 0,0 19,8A3,3 0 0,0 16,5A3,3 0 0,0 13,8A3,3 0 0,0 16,11Z" /></svg>;
 const TennisIcon = <svg fill="white" viewBox="0 0 24 24" width="60" height="60"><path d="M21.5,2.5L20.06,3.94L20.07,4C20.4,5.83 19.34,7.66 17.58,8.27L12.56,10L12.55,10L13.91,11.36L20.27,5H20.28L21.5,3.78L22.91,5.19L21.5,6.61V6.62L15.14,12.97L16.5,14.34L16.5,14.33L18.26,9.31C18.87,7.55 20.7,6.5 22.53,6.82L22.54,6.83L23.97,5.4L21.5,2.5M11.5,11L8.83,13.67L12.36,17.2L15.03,14.53L11.5,11M7.42,15.08L2.47,20.03L4.59,22.15L9.54,17.2L7.42,15.08Z" /></svg>;
 
-// --- DATA BLOCK ---
-const interestsData = [
-    {
-        id: 1,
-        title: "Touch Rugby",
-        subtitle: "Cardiff Uni & Wales Touch Association",
-        details: "Second Team Captain for Cardiff University, where I coach 25+ players and organize weekly training sessions[cite: 35, 36]. I also coach the Girls 15s team in East Wales for national competitions, training 16 athletes [cite: 37], and serve as a qualified International referee, officiating at the Touch Euros[cite: 38]."
-    },
-    {
-        id: 2,
-        title: "Air Cadets",
-        subtitle: "KSW CCF",
-        details: "Served for 5 years and was promoted to Cadet Flight Sergeant[cite: 42, 43]. During my service, I led training for 15+ junior cadets in the Part II syllabus and participated in 5+ flight and gliding field days[cite: 44]."
-    },
-    {
-        id: 3,
-        title: "Student Mentoring",
-        subtitle: "Cardiff University",
-        details: "Started as a mentor for 8 first-year students, supporting their academic and social transition[cite: 40]. Promoted to Senior Student Mentor, where I oversee 6 new mentors and coordinate structured development sessions[cite: 39, 41]."
-    },
-    {
-        id: 4,
-        title: "Padel",
-        subtitle: "Recreational & Competitive",
-        details: "Active player in the local Padel community. Enjoy the strategic, fast-paced nature of the game and regularly participate in matches to stay sharp and maintain fitness."
-    }
-];
-
 export default function InterestsDashboard() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalIndex, setModalIndex] = useState(0);
+
+    // State for API Data ---
+    const [interestsData, setInterestsData] = useState([]);
+
+    // Fetch from API on load ---
+    useEffect(() => {
+        const fetchInterests = async () => {
+            // NOTE: Ensure this port matches your .NET terminal output
+            const API_BASE_URL = 'http://localhost:5075/api';
+            try {
+                const response = await fetch(`${API_BASE_URL}/interests`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setInterestsData(data);
+                }
+            } catch (error) {
+                console.error("Failed to fetch interests data:", error);
+            }
+        };
+
+        fetchInterests();
+    }, []);
 
     const openModal = (index) => {
         setModalIndex(index);
@@ -50,8 +44,7 @@ export default function InterestsDashboard() {
 
     return (
         <>
-            {/* 2. USE STANDARD MODAL, PASSING THE DATA AND TITLE */}
-            {isModalOpen && (
+            {isModalOpen && interestsData.length > 0 && (
                 <StandardModal
                     onClose={() => setIsModalOpen(false)}
                     title="My Interests"
@@ -83,7 +76,7 @@ export default function InterestsDashboard() {
                     label="Padel"
                     bgColor="#c4302b"
                     icon={TennisIcon}
-                    onClick={() => openModal(3)} /* Note: Index 3 is Padel in our array! */
+                    onClick={() => openModal(3)} /* Note: Index 3 is Padel in our DB! */
                 />
 
                 <Tile
