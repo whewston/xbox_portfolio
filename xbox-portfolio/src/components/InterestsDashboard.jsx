@@ -21,8 +21,7 @@ export default function InterestsDashboard() {
     // Fetch from API on load ---
     useEffect(() => {
         const fetchInterests = async () => {
-            // NOTE: Ensure this port matches your .NET terminal output
-            const API_BASE_URL = 'http://localhost:5075/api';
+            const API_BASE_URL = import.meta.env.VITE_API_URL;
             try {
                 const response = await fetch(`${API_BASE_URL}/interests`);
                 if (response.ok) {

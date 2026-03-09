@@ -1,0 +1,40 @@
+﻿services:
+  # 1. THE DATABASE
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: MySuperSecretPassword123
+      POSTGRES_DB: PortfolioDb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  
+  # 2. THE .NET BACKEND
+  api:
+    build:
+      context: ./PortfolioApi
+    restart: always
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=PortfolioDb;Username=postgres;Password=MySuperSecretPassword123
+      - AdminSecretKey=MySuperSecretAdminPassword123!
+    ports:
+      - "5000:8080"
+    depends_on:
+      - db
+
+  # 3. THE REACT FRONTEND
+  frontend:
+    build:
+      context: ./xbox-portfolio # <-- FIXED DIRECTORY
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+
+# Define the persistent volume for Postgres
+volumes:
+  pgdata:

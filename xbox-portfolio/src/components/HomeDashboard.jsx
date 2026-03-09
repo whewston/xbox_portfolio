@@ -33,10 +33,8 @@ export default function HomeDashboard() {
     // Fetch data from the .NET API when the dashboard loads ---
     useEffect(() => {
         const fetchAllData = async () => {
-            // NOTE: Make sure this port matches what your .NET terminal says! 
-            // It might be 5000, 5001, or something like 5228.
-            const API_BASE_URL = 'http://localhost:5075/api';
 
+            const API_BASE_URL = import.meta.env.VITE_API_URL;
             try {
                 // We use Promise.all to fetch everything at the exact same time for speed
                 const [profileRes, expRes, skillsRes, learnRes] = await Promise.all([
