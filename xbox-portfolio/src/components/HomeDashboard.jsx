@@ -1,9 +1,7 @@
 ﻿import React, { useState } from 'react';
 import Tile from './Tile';
-import ExperienceModal from './ExperienceModal';
-import SkillsModal from './SkillsModal';
+import StandardModal from './StandardModal';
 import CvModal from './CvModal';
-import AboutModal from './AboutModal';
 import './HomeDashboard.css';
 
 import xboxLogo from '../assets/xbox_logo.png';
@@ -21,31 +19,53 @@ const DiskBadge = (
     </svg>
 );
 
+const profileData = {
+    name: "William Hewston",
+    gamerscore: "15,420",
+    zone: "Software Development",
+    location: "UK",
+    joinDate: "2010",
+    bio: "Hey, I'm a passionate Software Engineer who loves building clean, interactive user interfaces.<br/><br/>When I'm not writing React code or hunting down CSS bugs, you can usually find me exploring new tech stacks, designing game UI clones, or trying to beat my high scores.<br/><br/>My primary weapon of choice is JavaScript, but I'm always leveling up my skills in the backend and cloud infrastructure."
+};
+
+const experienceData = [
+    { id: 1, title: "Client Projects & BSc Software Engineering", company: "Cardiff University", date: "2023 - 2026", details: "Studying Applied Software Engineering. Built an AI triage system for Signum Health (.NET, React, Python), a patient tracking system for the Welsh Blood Service (SpringBoot, Thymeleaf), and an accessible game discovery platform." },
+    { id: 2, title: "Freelance Web Developer", company: "Self-Employed", date: "Ongoing", details: "Designed and deployed a personal portfolio using Spring Boot, CI/CD, and Docker. Created a house renting site handling 100+ monthly visitors, and developed a custom WordPress site for a local business." },
+    { id: 3, title: "CyberFirst Attendee", company: "CyberFirst", date: "August 2022", details: "Attended the CyberFirst program in Belfast, gaining valuable insights into the cybersecurity industry, threat landscapes, and defensive strategies." },
+    { id: 4, title: "Warehouse Assistant", company: "Bumble Hole Foods", date: "Summer 2025", details: "Managed booking and dispatch for 100+ weekly deliveries. Optimised warehouse layout to reduce picking time by 15% and maintained inventory organisation across 300+ SKUs." }
+];
+
+const skillsData = [
+    { id: 1, title: "Frontend Development", subtitle: "React, JavaScript, HTML/CSS", details: "Experienced in building responsive and accessible user interfaces. Skilled in React, TailwindCSS, Bootstrap, and WordPress, with a focus on delivering high accessibility scores." },
+    { id: 2, title: "Backend & Databases", subtitle: "Java, Python, C#, SQL", details: "Proficient in server-side development using Java (Spring Boot), Python (Flask), and C# (.NET). Experienced in relational database management with PostgreSQL, MySQL, and MariaDB." },
+    { id: 3, title: "Tools & DevOps", subtitle: "Git, Docker, CI/CD", details: "Strong understanding of DevOps practices including continuous integration and deployment using Jenkins. Familiar with containerisation (Docker), infrastructure as code (Terraform), Git source control, and Agile methodologies." }
+];
+
 export default function HomeDashboard() {
-    const [isExpOpen, setIsExpOpen] = useState(false);
-    const [isSkillsOpen, setIsSkillsOpen] = useState(false);
-    const [isCvOpen, setIsCvOpen] = useState(false);
-    const [isAboutOpen, setIsAboutOpen] = useState(false); // <-- 3. ADD ABOUT STATE
+    // ONE state to rule them all!
+    const [activeModal, setActiveModal] = useState(null);
+    const closeModal = () => setActiveModal(null);
 
     return (
         <>
-            {/* Render all the modals! */}
-            {isExpOpen && <ExperienceModal onClose={() => setIsExpOpen(false)} />}
-            {isSkillsOpen && <SkillsModal onClose={() => setIsSkillsOpen(false)} />}
-            {isCvOpen && <CvModal onClose={() => setIsCvOpen(false)} cvFile={cv} />}
-            {isAboutOpen && <AboutModal onClose={() => setIsAboutOpen(false)} />}
+            {/* Dynamically render the StandardModal based on state */}
+            {activeModal === 'about' && <StandardModal onClose={closeModal} title="Player Profile" variant="profile" data={profileData} />}
+            {activeModal === 'exp' && <StandardModal onClose={closeModal} title="Experience" data={experienceData} />}
+            {activeModal === 'skills' && <StandardModal onClose={closeModal} title="My Skills" data={skillsData} />}
+
+            {/* Render the specialized CV Modal */}
+            {activeModal === 'cv' && <CvModal onClose={closeModal} cvFile={cv} />}
 
             <div className="dashboard-grid">
 
-                {/* 5. ADD THE BADGE AND onClick TO THE ABOUT TILE */}
                 <Tile
                     className="area-about"
                     label="About Me"
                     subText="Play Profile"
                     transparentLabel
                     badge={DiskBadge}
-                    onClick={() => setIsAboutOpen(true)}
-                    bgImage={fifa} /* <-- USE bgImage INSTEAD OF ICON/BGGCOLOR */
+                    onClick={() => setActiveModal('about')}
+                    bgImage={fifa}
                 />
 
                 <Tile
@@ -54,7 +74,7 @@ export default function HomeDashboard() {
                     bgColor="#107C10"
                     icon={PinIcon}
                     transparentLabel
-                    onClick={() => setIsSkillsOpen(true)}
+                    onClick={() => setActiveModal('skills')}
                 />
 
                 <Tile
@@ -63,7 +83,7 @@ export default function HomeDashboard() {
                     bgColor="#107C10"
                     icon={ClockIcon}
                     transparentLabel
-                    onClick={() => setIsExpOpen(true)}
+                    onClick={() => setActiveModal('exp')}
                 />
 
                 <Tile
@@ -74,11 +94,12 @@ export default function HomeDashboard() {
                     icon={<img src={xboxLogo} alt="Xbox 360 Logo" className="logo-center-feature" />}
                 />
 
-                <Tile 
-                    className="area-cv" 
-                    label="CV" bgColor="#8e44ad" 
-                    icon={CvIcon} 
-                    onClick={() => setIsCvOpen(true)}
+                <Tile
+                    className="area-cv"
+                    label="CV"
+                    bgColor="#8e44ad"
+                    icon={CvIcon}
+                    onClick={() => setActiveModal('cv')}
                 />
 
                 <Tile

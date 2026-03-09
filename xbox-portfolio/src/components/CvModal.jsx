@@ -1,6 +1,6 @@
 ﻿import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import './ExperienceModal.css'; // Reusing your modal styles!
+import './StandardModal.css';
 
 export default function CvModal({ onClose, cvFile }) {
 
