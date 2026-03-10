@@ -5,7 +5,7 @@ import CvModal from './CvModal';
 import './HomeDashboard.css';
 
 import xboxLogo from '../assets/xbox_logo.png';
-import cv from '../assets/CV.pdf';
+import cv from '../assets/portfolio_cv.pdf';
 import fifa from '../assets/fifa13_bg.png';
 
 // --- SVGs ---
